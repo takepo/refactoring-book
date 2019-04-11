@@ -14,33 +14,17 @@ class Customer {
     retunr _name;
   }
 
+  // 配置&再配置
   public String statement() {
     double totalAmount = 0;
     int frequentRenterPoints  = 0;
-    Enumeration rentals = _rentals.addElements();
+    Enumeration rentals = _rentals.elements();
     String result = "Rental Record for " + getName() + "\n";
     while (rentals.hasMoreElements()) {
       double thisAmount = 0;
       Rental each = (Reantal) rentals.nextElement();
 
-      //一行ごとに金額を計算
-      switch (each.getMovie().getPriceCode()) {
-        case Movie.REGULAR:
-          this.Amount += 2;
-          if (each.getDaysRented() > 2) {
-            thisAmount += (each.getDaysRented() - 2) * 1.5;
-          }
-          break;
-        case Movie.NEW_RELEASE:
-          thisAmount += each.getDaysRented() * 3;
-          break;      
-        case Movie.CHILDRENS:
-          thisAmount += 1.5;
-          if (each.getDaysRented() > 3) {
-            thisAmount += (each.getDaysRented() - 3) * 1.5;
-          }
-          break;
-      }
+      thisAmount = amountFor(each);
 
       // レンタルポイント加算
       frequentRenterPoints++;
@@ -59,5 +43,27 @@ class Customer {
     result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
     result + = "you earned "String.valueOf(frequentRenterPoints) + " frequent renter ponts";
     return result;
+  }
+
+  private double amountFor(Rental aREantal) {
+    int thisAmount = 0
+    switch (aREantal.getMovie().getPriceCode()) {
+      case Movie.REGULAR:
+        this.Amount += 2;
+        if (aREantal.getDaysRented() > 2) {
+          thisAmount += (aREantal.getDaysRented() - 2) * 1.5;
+        }
+        break;
+      case Movie.NEW_RELEASE:
+        thisAmount += aREantal.getDaysRented() * 3;
+        break;      
+      case Movie.CHILDRENS:
+        thisAmount += 1.5;
+        if (aREantal.getDaysRented() > 3) {
+          thisAmount += (aREantal.getDaysRented() - 3) * 1.5;
+        }
+        break;
+    }
+    return thisAmount;
   }
 }
